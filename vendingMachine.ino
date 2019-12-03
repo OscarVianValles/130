@@ -399,6 +399,7 @@ void loop(){
       break;
   }
 
+  // Reset all button presses
   isCoin10Pressed = false;
   isCoin05Pressed = false;
   isChoice15Pressed = false;
