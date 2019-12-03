@@ -24,10 +24,12 @@ bool initialTimeSet = false;
 bool initialBlinkTimeSet = false;
 bool buttonPress = false;
 
+unsigned long time = 0;
 unsigned long initialTime = 0;
 unsigned long currentTime = 0;
 unsigned long initialBlinkTime = 0;
 unsigned long blinkTime = 0;
+unsigned long debounce = 200UL;
 
 unsigned int currentState = 0;
 
@@ -110,16 +112,12 @@ void loop()
   // Read current state of the switch
   int switchState = digitalRead(SWITCH);
 
-  if(switchState && !oldSwitchState){
+  if(switchState && !oldSwitchState && millis() - time > debounce){
     running = !running;
-    oldSwitchState = 1;
-  } else if(!switchState && oldSwitchState){
-    oldSwitchState = 0;
+    time = millis();
   }
-  // If switch is on and current state is 0, start the lights
-  if(switchState == 1){
-    running = !running;
-  }
+
+  oldSwitchState = switchState;
 
   if (running){
     if(currentState == 0 || currentState == 7){
@@ -189,11 +187,13 @@ void loop()
 
     changePedColor(RED);
     changeCarColor(YELLOW);
+    buttonPress = true;
 
     currentTime = millis() - initialTime;
     if(currentTime >= 5000){
       currentState = 3;
       initialTimeSet = false;
+      buttonPress = false;
     }
     break;
   }

@@ -12,8 +12,10 @@ bool isOn = false;
 void toggle(){
   if(isOn){
     digitalWrite(LED, LOW);
+    isOn = false;
   } else {
     digitalWrite(LED, HIGH);
+    isOn = true;
   }
 }
 void setup(){
