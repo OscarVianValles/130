@@ -7,6 +7,15 @@ unsigned int state = 0;
 unsigned int reading = 0;
 unsigned int switchState = 0;
 unsigned long lastDebounceTime = 0;
+bool isOn = false;
+
+void toggle(){
+  if(isOn){
+    digitalWrite(LED, LOW);
+  } else {
+    digitalWrite(LED, HIGH);
+  }
+}
 void setup(){
   pinMode(BUTTON, INPUT);
   pinMode(LED, OUTPUT);
@@ -23,7 +32,6 @@ void loop(){
 
   switch(state){
    case 0: {
-    digitalWrite(LED, LOW);
      if(switchState == HIGH){
        state = 1;
      }
@@ -31,7 +39,6 @@ void loop(){
    }
 
     case 1: {
-      digitalWrite(LED, LOW);
       if(switchState == HIGH){
         state = 1;
       } else {
@@ -41,7 +48,6 @@ void loop(){
    }
 
   case 2: {
-    digitalWrite(LED, LOW);
     if(switchState == HIGH){
       state = 3;
     } else {
@@ -51,7 +57,7 @@ void loop(){
   }
 
   case 3: {
-    digitalWrite(LED, HIGH);
+    toggle();
     if(switchState == HIGH){
       state = 1;
     } else {
